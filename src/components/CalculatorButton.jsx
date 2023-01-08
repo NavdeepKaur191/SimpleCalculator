@@ -1,9 +1,20 @@
-function CalculatorButton({ displayChar,value,onClick }) {
+function CalculatorButton({
+  displayChar,
+  value,
+  onClick  
+}) {
+  const btnValue = value;
   return (
-    <button className="bg-white hover:bg-gray-100 text-black font-bold py-2 px-4 rounded-full"
-    value={value}
-    onClick={onClick}>
-    {displayChar}
+    <button
+      className={
+        btnValue.toString().startsWith("C")
+          ? "bg-white hover:bg-gray-100 text-black font-bold rounded-full h-10 w-20 flex items-center justify-center"
+          : "bg-white hover:bg-gray-100 text-black font-bold rounded-full h-10 w-10 flex items-center justify-center"
+      }
+      value={value}
+      onClick={onClick}
+    >
+      {displayChar}
     </button>
   );
 }

@@ -1,9 +1,9 @@
 import "./App.css";
 import CalWrapper from "./CalWrapper";
-function App() {  
+function App() {
   return (
-    <div className ="flex justify-center my-8">
-      <CalWrapper/>
+    <div className="flex justify-center my-8">
+      <CalWrapper />
     </div>
   );
 }
