@@ -1,7 +1,5 @@
 import CalculatorButton from "./CalculatorButton";
-import { useState } from "react";
-
-function ButtonBox({ expression, setExpression,result, setResult}) {
+function ButtonBox({ expression, setExpression, result, setResult,setDisplayString}) {
   const btnValues = [
     7,
     8,
@@ -22,7 +20,7 @@ function ButtonBox({ expression, setExpression,result, setResult}) {
     "CE",
     "C"
   ]; 
-  const [calExpression,setCalExpression]=useState("");  
+ 
   const buttons = btnValues.map((btn) => (
     <div className={btn.toString().startsWith("C") ? "content-center col-span-2 px-4" :"text-center"} key={btn}>
       <CalculatorButton
@@ -33,27 +31,40 @@ function ButtonBox({ expression, setExpression,result, setResult}) {
           console.log(`${btn} Clicked!`);
           if (btnClicked == "=") {
             calculateResult();  
-            setExpression("");
-            setCalExpression("");                     
+            //setExpression("");
+            //setCalExpression("");                     
           } else if (btnClicked === "C") {
             resetExpression();
           }
           else if (btnClicked === "CE") {   
-          {             
+          {      
+               if(result.length>0)
+               {
+                setResult("");
+               }  
+               else
+               {  
                setExpression((prevExp)=>prevExp.slice(0,-1));
-               setCalExpression((prevExp)=>prevExp.slice(0,-1));             
+               setDisplayString((prevExp)=>prevExp.slice(0,-1));
+               }             
           }     
         }
         else if (btnClicked === "x") { 
-          setExpression((prevExpression) => prevExpression + btnClicked)       
-          setCalExpression((calExp) => calExp + "*");
+          setDisplayString((prevExpression) => prevExpression + btnClicked)       
+          setExpression((calExp) => calExp + "*");
         }
          else {
-            setExpression((prevExpression) => prevExpression + btnClicked);
-            setCalExpression((calExp) => calExp + btnClicked) ;   
+          if(result.length>0)
+          {
+            setDisplayString(result+btnClicked);
+            setExpression(result+btnClicked);
             setResult("");
-            console.log(" New expression "+expression);
-            console.log("New calExpression" +calExpression);
+          }
+          else{
+            setExpression((prevExpression) => prevExpression + btnClicked);
+            setDisplayString((calExp) => calExp + btnClicked) ;   
+            setResult("");
+          }
           }
         }
       }
@@ -65,17 +76,18 @@ function ButtonBox({ expression, setExpression,result, setResult}) {
     console.log("Inside resetExpression" + expression);
     setResult("");
     setExpression("");
-    setCalExpression("");
+    setDisplayString("");
   }
 
   function calculateResult() {
     console.log("Inside Calculate" + expression);
-    const tempResult=eval(calExpression);
-    setResult(tempResult.toString());   
-    //setCalExpression(tempResult.toString()); 
-    // console.log("In Calculate expression="+expression);
-    // console.log("In Calculate result "+result);    
-    // console.log("In Calculate   calExp" +calExpression);   
+    let tempResult="";
+    try {
+      tempResult=eval(expression);
+    } catch (error) {
+      tempResult="ERROR";
+    }    
+    setResult(tempResult.toString());       
   }
   return (
     <div>

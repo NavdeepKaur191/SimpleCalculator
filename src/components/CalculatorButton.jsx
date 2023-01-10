@@ -1,8 +1,4 @@
-function CalculatorButton({
-  displayChar,
-  value,
-  onClick  
-}) {
+function CalculatorButton({ displayChar, value, onClick }) {
   const btnValue = value;
   return (
     <button

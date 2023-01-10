@@ -3,21 +3,25 @@ import ResultDisplayScreen from "./ResultDisplayScreen";
 import { useState } from "react";
 
 function CalWrapper() {
-  const [expression, setExpression] = useState("");
+  const [displayString, setDisplayString] = useState("");
+
   //Taken separate variable to display "X" instead of * in expression
- 
   const [result, setResult] = useState("");
+
+  const [expression, setExpression] = useState("");
 
   return (
     <div className="flex flex-col rounded-lg">
       <ResultDisplayScreen
-        displayString={result.length == 0 ? expression : result}
+        displayString={displayString}
+        displayResult={result}
       />
-      <ButtonBox         
+      <ButtonBox
+        result={result}
+        setDisplayString={setDisplayString}
+        setResult={setResult}
         expression={expression}
         setExpression={setExpression}
-        result={result}
-        setResult={setResult}
       />
     </div>
   );
